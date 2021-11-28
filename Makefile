@@ -1,4 +1,7 @@
 default: run
 
 run:
-	go run ttos.go
+	sudo go run ttos.go
+
+dist:
+	go build -o ttos -ldflags "-s -w" -trimpath ttos.go
