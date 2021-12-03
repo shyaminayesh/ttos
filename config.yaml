@@ -1,0 +1,10 @@
+tunnel:
+  name: tun0
+  address:
+    interface: 172.16.10.100
+    gateway: 172.16.10.200
+    mask: 255.255.255.0
+
+proxy:
+  port: 1337
+  address: 127.0.0.1

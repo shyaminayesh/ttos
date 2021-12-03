@@ -14,18 +14,18 @@ import (
 
 func main() {
 
-	// tun.Open()
+	config := Config()
 
 	var tunDNS string
 	flag.StringVar(&tunDNS, "tun-dns", "8.8.8.8,8.8.4.4", "tun dns servers")
 	dnsServers := strings.Split(tunDNS, ",")
 
-	f, err := tun.OpenTunDevice("tun0", "172.16.10.100", "172.16.10.200", "255.255.255.0", dnsServers)
+	f, err := tun.OpenTunDevice(config.Tunnel.Name, config.Tunnel.Address.Interface, config.Tunnel.Address.Gateway, config.Tunnel.Address.Mask, dnsServers)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	tun := gotun2socks.New(f, "127.0.0.1:1337", dnsServers, false, false)
+	tun := gotun2socks.New(f, fmt.Sprintf("%s:%d", config.Proxy.Address, config.Proxy.Port), dnsServers, false, false)
 
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch,
